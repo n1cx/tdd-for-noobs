@@ -8,6 +8,7 @@ By the end of this tutorial you will have a taste of:
 
 Recommended readings:
 
+* [Test-driven development on Wikipedia](https://en.wikipedia.org/wiki/Test-driven_development)
 * [Model Caching (RailsCasts)](http://railscasts.com/episodes/115-model-caching-revised)
 * [Testing Controllers with Rspec](http://everydayrails.com/2012/04/07/testing-series-rspec-controllers.html)
 * [Testing Routes using Rspec](http://ilovefoobar.wordpress.com/2014/02/23/testing-routes-using-rspec/)
