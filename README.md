@@ -370,3 +370,7 @@ Now you can open your browser to ```http://localhost:9000/articles``` to see the
 * ```Comment``` should have cached_all, cached_find, cached_article methods
 * comments should be displayed on article's show view
 
+##Future Topics
+
+* Regression testing
+* Acceptance testing
