@@ -372,6 +372,7 @@ Now you can open your browser to ```http://localhost:9000/articles``` to see the
 * comments should be displayed on article's show view
 
 ##Future Topics
+GIY (Google-It-Yourself)
 
 * Regression testing
 * Acceptance testing
