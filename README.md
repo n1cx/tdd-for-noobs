@@ -364,10 +364,11 @@ Now you can open your browser to ```http://localhost:9000/articles``` to see the
 
 ####Create comments
 * ```Comment``` belongs to ```Article```, one article can have many comments
-* has a subject, content, and email field
-* email format should be validated (hint: use regex)
-* ```Article``` should have a cached_comments method
-* ```Comment``` should have cached_all, cached_find, cached_article methods
+* has a ```subject```, ```content```, and ```email``` field
+* ```subject``` is a required field
+* ```email``` is a required field, and format should be validated (hint: use regex)
+* ```Article``` should have a ```cached_comments``` method
+* ```Comment``` should have `cached_all`, `cached_find`, `cached_article` methods
 * comments should be displayed on article's show view
 
 ##Future Topics
