@@ -20,7 +20,7 @@ describe Article do
       Rails.cache.clear # empty cache between each tests
     end
 
-    it 'should receive cache' do
+    it 'should cache with correct key' do
       Rails.cache.stub(:fetch)
       Rails.cache.should_receive(:fetch).with(['Article', 'all']).once
       Article.cached_all
