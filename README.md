@@ -114,6 +114,8 @@ In ```Guardfile```
 The ```Guardfile``` specifies which directories/files ```guard``` will track for changes.
 
 ###Hello Rails
+#####Before starting
+In terminal, run ```$ ./reset.sh``` before beginning the exercise. This will delete existing Article model, to be created during the tutorial.
 ####Create a database
 In terminal, ```rake db:create```
 
