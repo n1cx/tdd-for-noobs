@@ -362,7 +362,7 @@ Now we will create a simple view to display a list of articles. In ```app/views/
 	  h4 = article.title
 	  = article.text
 
-Now you can open your browser to ```http://localhost:9000/articles``` to see the view.
+Now you can open your browser to ```http://localhost:3000/articles``` to see the view.
 
 ##Exercises
 ####Extend ```Article```
