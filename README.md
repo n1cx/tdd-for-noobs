@@ -244,6 +244,11 @@ With code:
 
 	after_create :_flush_all_cache
 	
+	def _flush_all_cache
+    	Rails.cache.delete([self.class.name, 'all'])
+    end
+
+	
 It should also invalidate on destroy:
 
     it 'should invalidate cached_all on destroy' do
