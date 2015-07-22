@@ -63,4 +63,28 @@ describe Article do
       Article.cached_all.should eq [article]
     end
   end
+
+  context "cached show" do
+    it "should correct key" do
+      article = FactoryGirl.create(:article)
+      Rails.cache.should_receive(:fetch).with(['Article', article.id]).once
+      Article.cached_find(article.id)
+    end
+
+    it "should get article by id" do
+      article = FactoryGirl.create(:article)
+      find = Article.cached_find(article.id)
+      expect(find.id).to eq(article.id)
+    end
+  end
+  
+  context "cached comment" do
+    it "should get comment from cached" do
+      article = FactoryGirl.create(:article)
+      comment = FactoryGirl.create(:comment, article_id: article.id)
+
+      expect(Article.cached_comments(article.id).count).to eq(1)
+    end
+    
+  end
 end

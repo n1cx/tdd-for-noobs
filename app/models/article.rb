@@ -4,6 +4,19 @@ class Article < ActiveRecord::Base
   validates :title, presence: true, length: { minimum: 5 }
 
   after_commit :_flush_all_cache
+  has_many :comments
+
+  def self.cached_comments(id)
+    Rails.cache.fetch(["#{self.name}_comments", id]) do
+      find(id).comments.to_a
+    end
+  end
+
+  def self.cached_find(id)
+    Rails.cache.fetch([self.name, id]) do
+      find(id)
+    end
+  end
 
   def self.cached_all
     Rails.cache.fetch([self.name, 'all']) do
