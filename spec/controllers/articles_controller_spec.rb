@@ -14,4 +14,23 @@ describe ArticlesController do
       assigns(:articles).should eq [article]
     end
   end
+  
+  #phendy
+  context 'GET #show' do
+    it 'should load new article page' do
+      article = FactoryGirl.create(:article)
+      get :show, { id: article.id }
+
+      expect(response.code).to eq('200')
+    end
+
+    it 'should load comment on article page' do
+      article = FactoryGirl.create(:article)
+      comment = FactoryGirl.create(:comment, article_id: article.id)
+
+      get :show, { id: article.id }
+
+      expect(assigns(:comments)).to eq([comment])
+    end
+  end
 end
