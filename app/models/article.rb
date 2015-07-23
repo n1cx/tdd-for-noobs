@@ -4,6 +4,9 @@ class Article < ActiveRecord::Base
   validates :title, presence: true, length: { minimum: 5 }
 
   after_commit :_flush_all_cache
+  after_update :_flush_cache_find
+  after_touch :_flush_comment_cache
+  
   has_many :comments
 
   def cached_comments
@@ -28,11 +31,11 @@ class Article < ActiveRecord::Base
     Rails.cache.delete([self.class.name, 'all'])
   end
 
-  def _flush_comment_cache
-    Rails.cache.delete([self.class.name, "comments", self.id])
-  end
-
   def _flush_cache_find
     Rails.cache.delete([self.class.name, self.id])
+  end
+
+  def _flush_comment_cache
+    Rails.cache.delete([self.class.name, "comments", self.id])
   end
 end

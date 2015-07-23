@@ -83,16 +83,25 @@ describe Article do
       article.title = 'Hahaa'
       article.save!
 
-      find._flush_cache_find
-
       expect(Article.cached_find(article.id).title).to eq(article.title)
     end
 
     it "should get article comment from cached" do
       article = FactoryGirl.create(:article)
-      comment = FactoryGirl.create(:comment, article_id: article.id)
+      FactoryGirl.create(:comment, article_id: article.id)
 
       expect(article.cached_comments.count).to eq(1)
+    end
+
+    it "should invalidate cached_comment on new comment" do
+      article = FactoryGirl.create(:article)
+      FactoryGirl.create(:comment, article_id: article.id)
+      
+      expect(article.cached_comments.count).to eq(1)
+
+      FactoryGirl.create(:comment, article_id: article.id)
+
+      expect(article.cached_comments.count).to eq(2)
     end
   end
 end

@@ -86,8 +86,6 @@ describe Comment do
       comment.email = 'phendy@readflyer.com'
       comment.save!
 
-      comment._flush_cache_find
-
       expect(Comment.cached_find(comment.id).email).to eq(comment.email)       
     end
 
@@ -107,8 +105,6 @@ describe Comment do
       article2 = FactoryGirl.create(:article)
       comment.article_id = article2.id
       comment.save!
-
-      comment._flush_article_cache
 
       expect(comment.cached_article.id).to eq(article2.id)
     end

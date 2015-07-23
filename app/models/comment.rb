@@ -6,11 +6,10 @@ class Comment < ActiveRecord::Base
   validates :article_id, presence: true
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
   after_commit :_flush_all_cache
+  after_update :_flush_cache_find, :_flush_article_cache
 
   def cached_article
-    Rails.cache.fetch(["article_comment", self.id]) do
-      Article.cached_find(self.article_id)
-    end
+    Article.cached_find(self.article_id)
   end
 
   def self.cached_find(id)
