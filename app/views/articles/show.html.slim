@@ -1,0 +1,8 @@
+h1 = @article.title
+p = @article.text
+
+h2 Comment
+- @comments.each do |comment|
+  span Subject : #{comment.subject}
+  br
+  span Email : #{comment.email}

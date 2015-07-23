@@ -2,3 +2,4 @@ h1 = "List of Articles"
 - @articles.each do |article|
   h4 = article.title
   = article.text
+  = link_to 'Show', article_path(article)
