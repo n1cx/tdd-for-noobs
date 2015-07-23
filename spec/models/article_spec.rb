@@ -76,14 +76,16 @@ describe Article do
       expect(find.id).to eq(article.id)
     end
 
-    it 'should invalidate cached_find on upadte' do
+    it 'should invalidate cached_find on update' do
       article = FactoryGirl.create(:article)
       find = Article.cached_find(article.id)
 
       article.title = 'Hahaa'
       article.save!
 
-      expect(Article.cached_find(article.id)).to eq(article)
+      find._flush_cache_find
+
+      expect(Article.cached_find(article.id).title).to eq(article.title)
     end
 
     it "should get article comment from cached" do

@@ -31,4 +31,8 @@ class Article < ActiveRecord::Base
   def _flush_comment_cache
     Rails.cache.delete([self.class.name, "comments", self.id])
   end
+
+  def _flush_cache_find
+    Rails.cache.delete([self.class.name, self.id])
+  end
 end

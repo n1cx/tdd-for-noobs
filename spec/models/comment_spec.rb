@@ -2,7 +2,11 @@ require 'spec_helper'
 
 describe Comment do
   context 'Validate' do
-    it 'Should pass create comment and check valid factory' do
+    it 'Check valid factory' do
+      expect(FactoryGirl.create(:comment)).to be_valid
+    end
+
+    it 'Should pass create comment' do
       FactoryGirl.create(:comment)
       expect(Comment.count).to eq(1)
     end
@@ -82,7 +86,9 @@ describe Comment do
       comment.email = 'phendy@readflyer.com'
       comment.save!
 
-      expect(Comment.cached_find(comment.id)).to eq(comment)       
+      comment._flush_cache_find
+
+      expect(Comment.cached_find(comment.id).email).to eq(comment.email)       
     end
 
     it 'should have cached_article by comment_id' do
@@ -92,6 +98,19 @@ describe Comment do
       expect(comment.cached_article.id).to eq(article.id)       
     end
 
-    it 'should invalidate cached_article on '
+    it 'should invalidate cached_article on update' do
+      article = FactoryGirl.create(:article)
+      comment = FactoryGirl.create(:comment, article_id: article.id)
+
+      expect(comment.cached_article.id).to eq(article.id)
+
+      article2 = FactoryGirl.create(:article)
+      comment.article_id = article2.id
+      comment.save!
+
+      comment._flush_article_cache
+
+      expect(comment.cached_article.id).to eq(article2.id)
+    end
   end
 end

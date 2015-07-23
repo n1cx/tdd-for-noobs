@@ -9,7 +9,7 @@ class Comment < ActiveRecord::Base
 
   def cached_article
     Rails.cache.fetch(["article_comment", self.id]) do
-      self.article
+      Article.cached_find(self.article_id)
     end
   end
 
@@ -27,5 +27,13 @@ class Comment < ActiveRecord::Base
 
   def _flush_all_cache
     Rails.cache.delete([self.class.name, 'all'])
+  end
+
+  def _flush_article_cache
+    Rails.cache.delete(["article_comment", self.id])
+  end
+
+  def _flush_cache_find
+    Rails.cache.delete([self.class.name, self.id])
   end
 end
