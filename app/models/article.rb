@@ -6,9 +6,9 @@ class Article < ActiveRecord::Base
   after_commit :_flush_all_cache
   has_many :comments
 
-  def self.cached_comments(id)
-    Rails.cache.fetch(["#{self.name}_comments", id]) do
-      find(id).comments.to_a
+  def cached_comments
+    Rails.cache.fetch([self.class.name, "comments", self.id]) do
+      self.comments.to_a
     end
   end
 
@@ -26,5 +26,9 @@ class Article < ActiveRecord::Base
 
   def _flush_all_cache
     Rails.cache.delete([self.class.name, 'all'])
+  end
+
+  def _flush_comment_cache
+    Rails.cache.delete([self.class.name, "comments", self.id])
   end
 end

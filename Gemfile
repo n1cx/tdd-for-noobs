@@ -25,7 +25,6 @@ end
 group :development, :test do
   gem 'rspec-rails'
   gem 'rspec-mocks'
-  gem 'capybara'
   gem 'factory_girl_rails'
 end
 

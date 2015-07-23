@@ -6,7 +6,6 @@ class ArticlesController < ApplicationController
 
   def show
     @article = Article.cached_find(params[:id])
-    # @comments = Article.cached_comments(params[:id])
-    @comments = Comment.cached_all(params[:id])
+    @comments = @article.cached_comments
   end
 end

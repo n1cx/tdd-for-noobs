@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Article do
   it 'should have a valid factory' do
     FactoryGirl.create(:article)
+    expect(Article.count).to eq(1)
   end
   
   context 'validation' do
@@ -30,7 +31,7 @@ describe Article do
       FactoryGirl.create(:article)
 
       all = Article.cached_all
-      all.should be_kind_of(Array)
+      expect(all.is_a?(Array)).to eq(true) 
       all.count.should eq 1
     end
 
@@ -62,10 +63,8 @@ describe Article do
 
       Article.cached_all.should eq [article]
     end
-  end
 
-  context "cached show" do
-    it "should correct key" do
+    it "should correct key cache show" do
       article = FactoryGirl.create(:article)
       Rails.cache.should_receive(:fetch).with(['Article', article.id]).once
       Article.cached_find(article.id)
@@ -76,15 +75,22 @@ describe Article do
       find = Article.cached_find(article.id)
       expect(find.id).to eq(article.id)
     end
-  end
-  
-  context "cached comment" do
-    it "should get comment from cached" do
+
+    it 'should invalidate cached_find on upadte' do
+      article = FactoryGirl.create(:article)
+      find = Article.cached_find(article.id)
+
+      article.title = 'Hahaa'
+      article.save!
+
+      expect(Article.cached_find(article.id)).to eq(article)
+    end
+
+    it "should get article comment from cached" do
       article = FactoryGirl.create(:article)
       comment = FactoryGirl.create(:comment, article_id: article.id)
 
-      expect(Article.cached_comments(article.id).count).to eq(1)
+      expect(article.cached_comments.count).to eq(1)
     end
-    
   end
 end

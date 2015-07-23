@@ -23,5 +23,14 @@ describe ArticlesController do
 
       expect(response.code).to eq('200')
     end
+
+    it 'should load comment on article page' do
+      article = FactoryGirl.create(:article)
+      comment = FactoryGirl.create(:comment, article_id: article.id)
+
+      get :show, { id: article.id }
+
+      expect(assigns(:comments)).to eq([comment])
+    end
   end
 end

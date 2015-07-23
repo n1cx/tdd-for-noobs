@@ -3,11 +3,13 @@ class Comment < ActiveRecord::Base
   attr_accessible :content, :email, :subject
   validates :subject, presence: true
   validates :email, presence: true
+  validates :article_id, presence: true
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
+  after_commit :_flush_all_cache
 
-  def self.cached_article(id)
-    Rails.cache.fetch(["#{self.name}_article", id]) do
-      find(id).article
+  def cached_article
+    Rails.cache.fetch(["article_comment", self.id]) do
+      self.article
     end
   end
 
@@ -17,10 +19,9 @@ class Comment < ActiveRecord::Base
     end
   end
 
-  def self.cached_all(article_id)
-    Rails.cache.fetch([self.name, 'all_#{article_id}']) do
-      result = all.select{|comment| comment.article_id = article_id}
-      result.to_a
+  def self.cached_all
+    Rails.cache.fetch([self.name, 'all']) do
+      all.to_a
     end
   end
 
